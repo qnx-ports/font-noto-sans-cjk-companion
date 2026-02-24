@@ -1,0 +1,35 @@
+# Maintainer: Leo Shen <yishen@qnx.com>
+pkgname=font-noto-sans-cjk
+pkgver=2.004
+pkgrel=0
+pkgdesc="Google Noto Sans CJK fonts"
+url="https://github.com/notofonts/noto-fonts"
+arch="noarch"
+license="OFL-1.1"
+subpackages="$pkgname-extra:_extra"
+_zip_filename=03_NotoSansCJK-OTC.zip
+source="https://github.com/notofonts/noto-cjk/releases/download/Sans$pkgver/$_zip_filename"
+
+prepare() {
+    cd $srcdir
+    unzip $_zip_filename
+}
+
+package() {
+    local base_fonts="NotoSansCJK-Light.ttc NotoSansCJK-Regular.ttc NotoSansCJK-Bold.ttc"
+    pwd
+    for font in $base_fonts; do
+        install -Dm644 $srcdir/$font -t "$pkgdir"/usr/share/fonts/noto/
+    done
+}
+
+_extra() {
+    local extra_fonts="NotoSansCJK-Thin.ttc NotoSansCJK-DemiLight.ttc NotoSansCJK-Medium.ttc NotoSansCJK-Black.ttc"
+    for font in $extra_fonts; do
+        install -Dm644 $srcdir/$font -t "$subpkgdir"/usr/share/fonts/noto/
+    done
+}
+
+sha512sums="
+3ab2f5f8a6437885ef5f1948aaa0fbbd4cbba2205c20869baaa680bb54641d32e38e7dce7eae07c3ebc1e3fcf7095fa5c23db557a473b4cf63efc7ac18a64b4a  03_NotoSansCJK-OTC.zip
+"
